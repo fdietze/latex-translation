@@ -33,6 +33,6 @@ echo "</table>";
 <input type="button" value="update" onClick="update();this.value = 'working...';this.disabled=true;" />
 
 <?php
-echo "<pre>\n\nlast 5 commits:\n\n";
-echo `cd ../../rulebook-latex; git log -n 5`."</pre>";
+echo "<pre>\n\nlast commits:\n\n";
+echo `cd ../../rulebook-latex; git log -n 10 --pretty=full --pretty=format:"%ar: %an\n%B\n" --graph --stat`."</pre>";
 ?>
