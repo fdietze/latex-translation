@@ -1,8 +1,9 @@
 <pre>
 <?php
 echo `
-cd ../../rulebook-latex
+cd ../rulebook-latex
 git pull
-make`;
+make
+`;
 ?>
 </pre>

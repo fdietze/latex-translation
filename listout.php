@@ -20,7 +20,7 @@ $dir = dir("../../rulebook-latex/out");
 while (false !== ($file = $dir->read())) {
    if( preg_match($show,$file) ) {
      echo "<tr><td><a href=\"../rulebook-latex-out/$file\">$file</a></td>".
-     "<td>".date("F d Y H:i:s.", filemtime($dir->path."/".$file))."</td>".
+     "<td>".date("F d Y H:i:s", filemtime($dir->path."/".$file))."</td>".
      "<td align=\"right\">".intval(filesize($dir->path."/".$file)/1024)."k</td></tr>\n";
    }
 }
