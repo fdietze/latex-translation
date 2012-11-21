@@ -13,18 +13,19 @@ function update() {
 
 <?php
 
-$show = '/(^latex-log$)|(^.+\.pdf$)/';
+$show = '/((\.tex|make)\.log$)|(^.+\.pdf$)/';
 echo "<table border=1>";
 echo "<tr><th>filename</th><th>modified</th><th>size</th></tr>";
-$dir = dir("../../rulebook-latex/out");
-while (false !== ($file = $dir->read())) {
+$dir = "../../rulebook-latex/out";
+$files = scandir($dir);
+sort($files);
+foreach ( $files as $file ) {
    if( preg_match($show,$file) ) {
      echo "<tr><td><a href=\"../rulebook-latex-out/$file\">$file</a></td>".
-     "<td>".date("F d Y H:i:s", filemtime($dir->path."/".$file))."</td>".
-     "<td align=\"right\">".intval(filesize($dir->path."/".$file)/1024)."k</td></tr>\n";
+     "<td>".date("F d Y H:i:s", filemtime($dir."/".$file))."</td>".
+     "<td align=\"right\">".intval(filesize($dir."/".$file)/1024)."k</td></tr>\n";
    }
 }
-$dir->close();
 echo "</table>";
 
 ?>
