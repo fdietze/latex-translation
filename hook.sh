@@ -4,6 +4,7 @@ REPO=../rulebook-latex
 POOTLE=../pootle
 
 cd $REPO
+  git clean -df
   git pull 2>&1
 cd -
 
