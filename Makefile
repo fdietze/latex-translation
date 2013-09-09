@@ -8,10 +8,14 @@ OUTDIR=$(REPO)'/out'
 PODIR=$(REPO)'/po'
 TRANSLATEDDIR=$(REPO)'/translated'
 
+OLDCOMMIT='2012'
+NEWCOMMIT='master'
+DIFFNAME=$(PROJECT)-diff-$(OLDCOMMIT)-$(NEWCOMMIT)
+
 PO4ACHARSETS=-M Utf-8 -L Utf-8
 LATEXARGS= -output-directory=$(OUTDIR) -interaction=nonstopmode -file-line-error
 
-all: master translated
+all: master # translated
 
 
 master:
@@ -19,6 +23,16 @@ master:
 	TEXDIR=$(SRCDIR); \
 	TEXINPUTS=$$TEXDIR: pdflatex $(LATEXARGS) -draftmode $$TEXDIR/$(PROJECT).tex 2>&1 | tee $(OUTDIR)/$(PROJECT).tex.log && \
 	TEXINPUTS=$$TEXDIR: pdflatex $(LATEXARGS) $$TEXDIR/$(PROJECT).tex 2>&1 | tee $(OUTDIR)/$(PROJECT).tex.log; \
+
+diff:
+	mkdir -p $(OUTDIR)
+	PATH="/usr/bin:$(PATH)"; \
+	. /var/www/vhosts/unicycling.org/apps/rcs-latexdiff/venv/bin/activate; \
+	rcs-latexdiff -vo $(SRCDIR)/$(DIFFNAME).tex --clean src/$(PROJECT).tex $(OLDCOMMIT) $(NEWCOMMIT)
+	#latexdiff-vc --git --force --flatten -r $(OLDCOMMIT) -r $(NEWCOMMIT) src/iuf-rulebook.tex
+	TEXDIR=$(SRCDIR); \
+	TEXINPUTS=$$TEXDIR: pdflatex $(LATEXARGS) -draftmode $$TEXDIR/$(DIFFNAME).tex 2>&1 | tee $(OUTDIR)/$(DIFFNAME).tex.log && \
+	TEXINPUTS=$$TEXDIR: pdflatex $(LATEXARGS) $$TEXDIR/$(DIFFNAME).tex 2>&1 | tee $(OUTDIR)/$(DIFFNAME).tex.log; \
 
 translated: update-translation
 	mkdir -p $(TRANSLATEDDIR)
