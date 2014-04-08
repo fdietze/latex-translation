@@ -28,7 +28,8 @@ git pull --rebase 2>&1 | tee -a $LOGFILE #rebase, to track history changes
 
 # master document
 git checkout master
-make --makefile=$WORKINGDIR/Makefile REPO=$REPO POOTLE=$POOTLE 2>&1 | tee -a $LOGFILE
+make --makefile=$WORKINGDIR/Makefile REPO=$REPO pdf 2>&1 | tee -a $LOGFILE
+make --makefile=$WORKINGDIR/Makefile REPO=$REPO translated 2>&1 | tee -a $LOGFILE
 
 # diff document
 make --makefile=$WORKINGDIR/Makefile REPO=$REPO diff 2>&1 | tee -a $LOGFILE

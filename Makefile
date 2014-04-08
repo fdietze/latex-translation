@@ -1,7 +1,6 @@
 PROJECT='iuf-rulebook'
 
 REPO='../rulebook-latex'
-POOTLE='../pootle'
 
 SRCDIR=$(REPO)'/src'
 OUTDIR=$(REPO)'/out'
@@ -15,10 +14,10 @@ DIFFNAME=$(PROJECT)-diff-$(OLDCOMMIT)-$(NEWCOMMIT)
 PO4ACHARSETS=-M Utf-8 -L Utf-8
 LATEXARGS= -output-directory=$(OUTDIR) -interaction=nonstopmode -file-line-error
 
-all: master translated
+all: pdf ranslated
 
 
-master:
+pdf:
 	mkdir -p $(OUTDIR)
 	TEXDIR=$(SRCDIR); \
 	TEXINPUTS=$$TEXDIR: pdflatex $(LATEXARGS) -draftmode $$TEXDIR/$(PROJECT).tex 2>&1 | tee $(OUTDIR)/$(PROJECT).tex.log && \
