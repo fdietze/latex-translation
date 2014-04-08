@@ -15,7 +15,7 @@ DIFFNAME=$(PROJECT)-diff-$(OLDCOMMIT)-$(NEWCOMMIT)
 PO4ACHARSETS=-M Utf-8 -L Utf-8
 LATEXARGS= -output-directory=$(OUTDIR) -interaction=nonstopmode -file-line-error
 
-all: master # translated
+all: master translated
 
 
 master:
@@ -36,6 +36,7 @@ diff:
 
 translated: update-translation
 	mkdir -p $(TRANSLATEDDIR)
+	cp -a $(SRCDIR)/img $(TRANSLATEDDIR)
 	mkdir -p $(OUTDIR)
 	for file in `find $(TRANSLATEDDIR)/*.tex`; do \
 		TEXDIR=$(TRANSLATEDDIR); \
@@ -47,7 +48,7 @@ translated: update-translation
 
 update-translation: translation-template
 	tx pull -a
-	TEXINPUTS=$(SRCDIR): po4a --variable repo=$(REPO) $(PO4ACHARSETS) po4a.cfg
+	TEXINPUTS=$(SRCDIR): po4a --variable repo=$(REPO) $(PO4ACHARSETS) $(REPO)/po4a.cfg
 
 translation-template: $(TRANSLATEDDIR) $(PODIR)
 	TEXINPUTS=$(SRCDIR): po4a-gettextize -f latex -m $(SRCDIR)/$(PROJECT).tex $(PO4ACHARSETS) -p $(PODIR)/template.pot
