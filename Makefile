@@ -46,13 +46,13 @@ translated: update-translation
 	done
 
 update-translation: translation-template
-	$(POOTLE)/manage.py sync_stores
+	tx pull -a
 	TEXINPUTS=$(SRCDIR): po4a --variable repo=$(REPO) $(PO4ACHARSETS) po4a.cfg
-	chmod 0777 $(REPO)/po/*
-	$(POOTLE)/manage.py update_stores
 
 translation-template: $(TRANSLATEDDIR) $(PODIR)
 	TEXINPUTS=$(SRCDIR): po4a-gettextize -f latex -m $(SRCDIR)/$(PROJECT).tex $(PO4ACHARSETS) -p $(PODIR)/template.pot
+	tx set --auto-local -t PO -r rulebook.master '$(PODIR)/<lang>.po' --source-lang en --source-file $(PODIR)/template.pot --execute
+	tx push -s
 
 
 
